@@ -1,6 +1,7 @@
 VK Internship 
 
-*Сложность операций*
+#Сложность операций
+
 | Операция | Временная сложность |
 |:---: | :---: |
 | set(key, value, ttl) | O(log N) |
@@ -9,8 +10,9 @@ VK Internship
 | getManySorted(key, count) | O(log N) |
 | removeOneExpiredEntry() | O(log N) |
 
-*Memory Overhead*
-Оверхэд на одну запись равен 160 бит.
+#Memory Overhead#
+
+**Оверхэд на одну** запись равен **160 бит**.
 
 ```
 struct Entry {
