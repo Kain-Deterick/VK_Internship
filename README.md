@@ -1,6 +1,6 @@
-#VK Internship 
+# VK Internship 
 
-##Сложность операций
+## Сложность операций
 
 | Операция | Временная сложность |
 |:---: | :---: |
@@ -10,7 +10,7 @@
 | getManySorted(key, count) | O(log N) |
 | removeOneExpiredEntry() | O(log N) |
 
-##Memory Overhead
+## Memory Overhead
 
 **Оверхэд на одну** запись равен **160 бит**.
 
