@@ -12,12 +12,11 @@ namespace VK
         }
     }
 
-    // Асимптотика функции: O(log(N))
+    // Asymptotic behavior of the function: O(log(N))
     template<typename Clock>
     void KVStorage<Clock>::set(std::string key, std::string value, uint32_t ttl) {
         auto now = clock_.now();
 
-        // Проверяем существует ли запись
         auto it = storage_.find(key);
         if (it != storage_.end()) {
             if (it->second.has_ttl) {
@@ -37,7 +36,7 @@ namespace VK
             }
         }
         else {
-            // Создаем новую запись
+            // Create New Element
             Entry entry;
             entry.value = std::move(value);
             if (ttl == 0) {
@@ -54,7 +53,7 @@ namespace VK
         }
     }
 
-    // Асимптотика функции remove: O(log N)
+    // Asymptotic behavior of the function remove: O(log N)
     template<typename Clock>
     bool KVStorage<Clock>::remove(std::string_view key) {
         auto it = storage_.find(std::string(key));
@@ -68,30 +67,25 @@ namespace VK
         return true;
     }
 
-    // Асимптотика функции get: O(log N)
+    // Asymptotic behavior of the function get: O(log N)
     template<typename Clock>
     std::optional<std::string> KVStorage<Clock>::get(std::string_view key) const {
         auto it = storage_.find(std::string(key));
         if (it == storage_.end()) {
             return std::nullopt;
         }
-        // Проверяем TTL не истекло
         if (it->second.has_ttl && it->second.expires_at <= clock_.now()) {
-            // Удаляем запись
             return std::nullopt;
         }
         return it->second.value;
     }
 
 
-    // Асимптотика функции getManySorted: O(log N+count)
+    // Asymptotic behavior of the function getManySorted: O(log N+count)
     template<typename Clock>
     std::vector<std::pair<std::string, std::string>> KVStorage<Clock>::getManySorted(std::string_view key, uint32_t count)  const {
         std::vector<std::pair<std::string, std::string>> result;
-        /*
-        * lower_bound - это метод класса std::map в C++, который возвращает итератор на первый элемент
-        * в контейнере, ключ которого не меньше переданного значения (то есть либо равен, либо больше)
-        */
+
         auto it = storage_.lower_bound(std::string(key));
         auto now = clock_.now();
         while (it != storage_.end() && result.size() < count) {
