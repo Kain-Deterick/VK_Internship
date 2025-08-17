@@ -6,7 +6,6 @@ using namespace std;
 int main()
 {
     setlocale(LC_ALL, "Russian");
-    cout << sizeof(string) << endl;
 
     // Создаем хранилище с начальными данными
     std::vector<std::tuple<std::string, std::string, uint32_t>> vec = {

@@ -12,10 +12,7 @@ namespace VK
         }
     }
 
-    // Асимптотика функции:
-    // Итого в худшем случае O(log(N))
-    // Оверхэд на запись: 
-
+    // Асимптотика функции: O(log(N))
     template<typename Clock>
     void KVStorage<Clock>::set(std::string key, std::string value, uint32_t ttl) {
         auto now = clock_.now();
@@ -23,12 +20,10 @@ namespace VK
         // Проверяем существует ли запись
         auto it = storage_.find(key);
         if (it != storage_.end()) {
-            // Если есть TTL ветка, удаляем старую (tll != 0)
             if (it->second.has_ttl) {
                 ttl_index_.erase(it->second.ttl_it);
             }
             it->second.value = std::move(value);
-            // Если ttl == 0, то записть вечная
             if (ttl == 0) {
 
                 it->second.has_ttl = false;
@@ -52,7 +47,6 @@ namespace VK
             else {
                 entry.has_ttl = true;
                 entry.expires_at = now + std::chrono::seconds(ttl);
-                // Insert key into ttl_index_
                 auto iter = ttl_index_.insert({ entry.expires_at, key });
                 entry.ttl_it = iter;
             }
